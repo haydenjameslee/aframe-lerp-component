@@ -57,18 +57,14 @@
 	 */
 	AFRAME.registerComponent('lerp', {
 	  schema: {
-	    timeout: { type: 'int', default: 100 }, // ms
-	    properties: {default:['position', 'rotation', 'scale']},
+	    duration: { type: 'int', default: 100 }, // milliseconds (ms)
+	    properties: { default: ['position', 'rotation', 'scale']},
 	  },
 
 	  /**
 	   * Called once when component is attached. Generally for initial setup.
 	   */
 	  init: function () {
-	    this.newPosition = new THREE.Vector3();
-	    this.newRotation = new THREE.Quaternion();
-	    this.newScale = new THREE.Vector3();
-
 	    this.lerpingPosition = false;
 	    this.lerpingRotation = false;
 	    this.lerpingScale = false;
@@ -86,9 +82,8 @@
 
 	    // Lerp position
 	    if (this.lerpingPosition) {
-	      progress = (now - this.startLerpTimePosition) / this.data.timeout;
-	      this.newPosition.lerpVectors(this.startPosition, this.targetPosition, progress);
-	      obj3d.position.copy(this.newPosition);
+	      progress = (now - this.startLerpTimePosition) / this.data.duration;
+	      obj3d.position.lerpVectors(this.startPosition, this.targetPosition, progress);
 	      if (progress >= 1) {
 	        this.lerpingPosition = false;
 	      }
@@ -96,9 +91,8 @@
 
 	    // Slerp rotation
 	    if (this.lerpingRotation) {
-	      progress = (now - this.startLerpTimeRotation) / this.data.timeout;
-	      THREE.Quaternion.slerp(this.startRotation, this.targetRotation, this.newRotation, progress);
-	      obj3d.quaternion.copy(this.newRotation);
+	      progress = (now - this.startLerpTimeRotation) / this.data.duration;
+	      THREE.Quaternion.slerp(this.startRotation, this.targetRotation, obj3d.quaternion, progress);
 	      if (progress >= 1) {
 	        this.lerpingRotation = false;
 	      }
@@ -106,9 +100,8 @@
 
 	    // Lerp scale
 	    if (this.lerpingScale) {
-	      progress = (now - this.startLerpTimeScale) / this.data.timeout;
-	      this.newScale.lerpVectors(this.startScale, this.targetScale, progress);
-	      obj3d.scale.copy(this.newScale);
+	      progress = (now - this.startLerpTimeScale) / this.data.duration;
+	      obj3d.scale.lerpVectors(this.startScale, this.targetScale, progress);
 	      if (progress >= 1) {
 	        this.lerpingScale = false;
 	      }
