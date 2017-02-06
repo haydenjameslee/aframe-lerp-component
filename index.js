@@ -11,8 +11,8 @@ var degToRad = THREE.Math.degToRad;
  */
 AFRAME.registerComponent('lerp', {
   schema: {
-    timeout: { type: 'int', default: 100 }, // ms
-    properties: {default:['position', 'rotation', 'scale']},
+    duration: { type: 'int', default: 100 }, // milliseconds (ms)
+    properties: { default: ['position', 'rotation', 'scale']},
   },
 
   /**
@@ -36,7 +36,7 @@ AFRAME.registerComponent('lerp', {
 
     // Lerp position
     if (this.lerpingPosition) {
-      progress = (now - this.startLerpTimePosition) / this.data.timeout;
+      progress = (now - this.startLerpTimePosition) / this.data.duration;
       obj3d.position.lerpVectors(this.startPosition, this.targetPosition, progress);
       if (progress >= 1) {
         this.lerpingPosition = false;
@@ -45,7 +45,7 @@ AFRAME.registerComponent('lerp', {
 
     // Slerp rotation
     if (this.lerpingRotation) {
-      progress = (now - this.startLerpTimeRotation) / this.data.timeout;
+      progress = (now - this.startLerpTimeRotation) / this.data.duration;
       THREE.Quaternion.slerp(this.startRotation, this.targetRotation, obj3d.quaternion, progress);
       if (progress >= 1) {
         this.lerpingRotation = false;
@@ -54,7 +54,7 @@ AFRAME.registerComponent('lerp', {
 
     // Lerp scale
     if (this.lerpingScale) {
-      progress = (now - this.startLerpTimeScale) / this.data.timeout;
+      progress = (now - this.startLerpTimeScale) / this.data.duration;
       obj3d.scale.lerpVectors(this.startScale, this.targetScale, progress);
       if (progress >= 1) {
         this.lerpingScale = false;

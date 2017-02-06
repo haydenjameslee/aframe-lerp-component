@@ -175,8 +175,8 @@ suite('lerp component', function () {
 
     test('lerps position', sinon.test(function () {
       var obj3d = el.object3D;
-      var timeout = 100;
-      component.data.timeout = timeout;
+      var duration = 100;
+      component.data.duration = duration;
       var from = { x: 0, y: 0, z: 0 };
       var to = { x: 2, y: 2, z: 2 };
       var nowStub = this.stub(Date, 'now');
@@ -184,21 +184,21 @@ suite('lerp component', function () {
       nowStub.returns(0);
       component.toPosition(from, to);
 
-      nowStub.returns(timeout / 4);
+      nowStub.returns(duration / 4);
       component.tick();
 
       var actual = obj3d.position;
       var expected = new THREE.Vector3(0.5,0.5,0.5);
       assert.deepEqual(actual, expected, 'Position 1/4');
 
-      nowStub.returns(timeout / 2);
+      nowStub.returns(duration / 2);
       component.tick();
 
       actual = obj3d.position;
       expected = new THREE.Vector3(1,1,1);
       assert.deepEqual(actual, expected, 'Position 1/2');
 
-      nowStub.returns(timeout);
+      nowStub.returns(duration);
       component.tick();
 
       actual = obj3d.position;
@@ -217,8 +217,8 @@ suite('lerp component', function () {
       };
 
       var obj3d = el.object3D;
-      var timeout = 100;
-      component.data.timeout = timeout;
+      var duration = 100;
+      component.data.duration = duration;
       var from = { x: 0, y: 0, z: 0 };
       var to = { x: 0, y: 180, z: 0 };
       var nowStub = this.stub(Date, 'now');
@@ -226,21 +226,21 @@ suite('lerp component', function () {
       nowStub.returns(0);
       component.toRotation(from, to);
 
-      nowStub.returns(timeout / 4);
+      nowStub.returns(duration / 4);
       component.tick();
 
       var actual = obj3d.quaternion;
       var expected = new THREE.Quaternion(0, 0.3826834323650898, 0, 0.9238795325112867);
       assertQuaternionApprox(actual, expected, 'Rotation 1/4');
 
-      nowStub.returns(timeout / 2);
+      nowStub.returns(duration / 2);
       component.tick();
 
       actual = obj3d.quaternion;
       expected = new THREE.Quaternion(0, 0.7071067811865475, 0, 0.7071067811865475);
       assertQuaternionApprox(actual, expected, 'Rotation 1/2');
 
-      nowStub.returns(timeout);
+      nowStub.returns(duration);
       component.tick();
 
       actual = obj3d.quaternion;
@@ -251,8 +251,8 @@ suite('lerp component', function () {
 
     test('lerps scale', sinon.test(function () {
       var obj3d = el.object3D;
-      var timeout = 100;
-      component.data.timeout = timeout;
+      var duration = 100;
+      component.data.duration = duration;
       var from = { x: 1, y: 1, z: 1 };
       var to = { x: 2, y: 2, z: 2 };
       var nowStub = this.stub(Date, 'now');
@@ -260,21 +260,21 @@ suite('lerp component', function () {
       nowStub.returns(0);
       component.toScale(from, to);
 
-      nowStub.returns(timeout / 4);
+      nowStub.returns(duration / 4);
       component.tick();
 
       var actual = obj3d.scale;
       var expected = new THREE.Vector3(1.25,1.25,1.25);
       assert.deepEqual(actual, expected, 'Scale 1/4');
 
-      nowStub.returns(timeout / 2);
+      nowStub.returns(duration / 2);
       component.tick();
 
       actual = obj3d.scale;
       expected = new THREE.Vector3(1.5,1.5,1.5);
       assert.deepEqual(actual, expected, 'Scale 1/2');
 
-      nowStub.returns(timeout);
+      nowStub.returns(duration);
       component.tick();
 
       actual = obj3d.scale;
