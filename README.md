@@ -1,14 +1,15 @@
 ## aframe-lerp-component
 
-A Linear Interpolation component for A-Frame.
+A Linear Interpolation component for [A-Frame](https://aframe.io).
 
-For [A-Frame](https://aframe.io).
+Will lerp position, rotation, and scale when you call `el.setAttribute('position', ...)` from the current value to the new value in time `duration`
 
 ### API
 
 | Property | Description | Default Value |
 | -------- | ----------- | ------------- |
-|          |             |               |
+| duration  | Time to move from `from` to `to` in milliseconds (ms) |     100       |
+| properties | Array of properties to lerp. Eg. to only lerp position and rotation set to `position, rotation` | position, rotation, scale |
 
 ### Installation
 
@@ -25,7 +26,7 @@ Install and use by directly including the [browser files](dist):
 
 <body>
   <a-scene>
-    <a-entity lerp="foo: bar"></a-entity>
+    <a-entity lerp="duration: 100; properties: position, rotation, scale"></a-entity>
   </a-scene>
 </body>
 ```
