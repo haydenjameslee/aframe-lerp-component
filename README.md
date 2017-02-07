@@ -6,6 +6,10 @@ Changes the position, rotation, or scale when you call `el.setAttribute('positio
 
 Use directly by calling `el.components.lerp.toPosition(from, to)`
 
+
+![GIF Example](http://i.giphy.com/26xBP0MH0KHaCrhE4.gif)
+
+
 ### API
 
 | Property | Description | Default Value |
