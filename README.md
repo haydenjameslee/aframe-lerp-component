@@ -1,6 +1,6 @@
 ## aframe-lerp-component
 
-A Linear Interpolation component for [A-Frame](https://aframe.io).
+A linear interpolation component for [A-Frame](https://aframe.io).
 
 Changes the position, rotation, or scale when you call `el.setAttribute('position', ...)` from the current value to the new value in time `duration`.
 
