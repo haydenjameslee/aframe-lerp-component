@@ -2,7 +2,9 @@
 
 A Linear Interpolation component for [A-Frame](https://aframe.io).
 
-Will lerp position, rotation, and scale when you call `el.setAttribute('position', ...)` from the current value to the new value in time `duration`
+Changes the position, rotation, or scale when you call `el.setAttribute('position', ...)` from the current value to the new value in time `duration`.
+
+Use directly by calling `el.components.lerp.toPosition(from, to)`
 
 ### API
 
