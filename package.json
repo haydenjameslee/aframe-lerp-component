@@ -1,6 +1,6 @@
 {
   "name": "aframe-lerp-component",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A linear interpolation component for A-Frame.",
   "main": "index.js",
   "cdn": "dist/aframe-lerp-component.min.js",
