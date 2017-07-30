@@ -2,9 +2,9 @@
 
 A linear interpolation component for [A-Frame](https://aframe.io).
 
-Changes the position, rotation, or scale when you call `el.setAttribute('position', ...)` from the current value to the new value in time `duration`.
+Changes the position, rotation, or scale when you call `el.setAttribute('position', ...)` from the current value to the new value.
 
-Use directly by calling `el.components.lerp.toPosition(from, to)`
+The time taken to interpolate to the new value is the time between the previous change and the most recent change.
 
 
 ![GIF Example](http://i.giphy.com/26xBP0MH0KHaCrhE4.gif)
@@ -15,7 +15,6 @@ Try on Glitch: https://aframe-lerp-component.glitch.me/
 
 | Property | Description | Default Value |
 | -------- | ----------- | ------------- |
-| duration  | Time to move from `from` to `to` in milliseconds (ms) |     100       |
 | properties | Array of properties to lerp. Eg. to only lerp position and rotation set to `position, rotation` | position, rotation, scale |
 
 ### Installation
@@ -33,7 +32,7 @@ Install and use by directly including the [browser files](dist):
 
 <body>
   <a-scene>
-    <a-entity lerp="duration: 100; properties: position, rotation, scale"></a-entity>
+    <a-entity lerp="properties: position, rotation, scale"></a-entity>
   </a-scene>
 </body>
 ```
