@@ -42,7 +42,7 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* global AFRAME THREE */
 
@@ -51,13 +51,12 @@
 	}
 
 	var degToRad = THREE.Math.degToRad;
-
+	var almostEqual = __webpack_require__(1);
 	/**
 	 * Linear Interpolation component for A-Frame.
 	 */
 	AFRAME.registerComponent('lerp', {
 	  schema: {
-	    duration: { type: 'int', default: 100 }, // milliseconds (ms)
 	    properties: { default: ['position', 'rotation', 'scale']},
 	  },
 
@@ -65,11 +64,16 @@
 	   * Called once when component is attached. Generally for initial setup.
 	   */
 	  init: function () {
+	    var el = this.el;
+	    this.lastPosition = el.getAttribute('position');
+	    this.lastRotation = el.getAttribute('rotation');
+	    this.lastScale = el.getAttribute('scale');
+
 	    this.lerpingPosition = false;
 	    this.lerpingRotation = false;
 	    this.lerpingScale = false;
 
-	    this.el.addEventListener('componentchanged', this.changedListener.bind(this));
+	    this.timeOfLastUpdate = 0;
 	  },
 
 	  /**
@@ -80,10 +84,13 @@
 	    var now = this.now();
 	    var obj3d = this.el.object3D;
 
+	    this.checkForComponentChanged();
+
 	    // Lerp position
 	    if (this.lerpingPosition) {
-	      progress = (now - this.startLerpTimePosition) / this.data.duration;
+	      progress = (now - this.startLerpTimePosition) / this.duration;
 	      obj3d.position.lerpVectors(this.startPosition, this.targetPosition, progress);
+	      // console.log("new position", obj3d.position);
 	      if (progress >= 1) {
 	        this.lerpingPosition = false;
 	      }
@@ -91,7 +98,7 @@
 
 	    // Slerp rotation
 	    if (this.lerpingRotation) {
-	      progress = (now - this.startLerpTimeRotation) / this.data.duration;
+	      progress = (now - this.startLerpTimeRotation) / this.duration;
 	      THREE.Quaternion.slerp(this.startRotation, this.targetRotation, obj3d.quaternion, progress);
 	      if (progress >= 1) {
 	        this.lerpingRotation = false;
@@ -100,7 +107,7 @@
 
 	    // Lerp scale
 	    if (this.lerpingScale) {
-	      progress = (now - this.startLerpTimeScale) / this.data.duration;
+	      progress = (now - this.startLerpTimeScale) / this.duration;
 	      obj3d.scale.lerpVectors(this.startScale, this.targetScale, progress);
 	      if (progress >= 1) {
 	        this.lerpingScale = false;
@@ -108,22 +115,45 @@
 	    }
 	  },
 
-	  changedListener: function(event) {
-	    var name = event.detail.name;
-	    var oldData = event.detail.oldData;
-	    var newData = event.detail.newData;
+	  checkForComponentChanged: function() {
+	    var el = this.el;
 
-	    if (this.data.properties.indexOf(name) == -1) {
-	      return;
+	    var hasChanged = false;
+
+	    var newPosition = el.getAttribute('position');
+	    if (this.isLerpable('position') && !this.almostEqualVec3(this.lastPosition, newPosition)) {
+	      this.toPosition(this.lastPosition, newPosition);
+	      this.lastPosition = newPosition;
+	      hasChanged = true;
 	    }
 
-	    if (name == 'position') {
-	      this.toPosition(oldData, newData);
-	    } else if (name == 'rotation') {
-	      this.toRotation(oldData, newData);
-	    } else if (name == 'scale') {
-	      this.toScale(oldData, newData);
+	    var newRotation = el.getAttribute('rotation');
+	    if (this.isLerpable('rotation') && !this.almostEqualVec3(this.lastRotation, newRotation)) {
+	      this.toRotation(this.lastRotation, newRotation);
+	      this.lastRotation = newRotation;
+	      hasChanged = true;
 	    }
+
+	    var newScale = el.getAttribute('scale');
+	    if (this.isLerpable('scale') && !this.almostEqualVec3(this.lastScale, newScale)) {
+	      this.toScale(this.lastScale, newScale);
+	      this.lastScale = newScale;
+	      hasChanged = true;
+	    }
+
+	    if (hasChanged) {
+	      this.updateDuration();
+	    }
+	  },
+
+	  isLerpable: function(name) {
+	    return this.data.properties.indexOf(name) != -1
+	  },
+
+	  updateDuration: function() {
+	    var now = this.now();
+	    this.duration = now - this.timeOfLastUpdate;
+	    this.timeOfLastUpdate = now;
 	  },
 
 	  /**
@@ -160,6 +190,10 @@
 	    this.targetScale = new THREE.Vector3(to.x, to.y, to.z);
 	  },
 
+	  almostEqualVec3: function(a, b) {
+	    return almostEqual(a.x, b.x) && almostEqual(a.y, b.y) && almostEqual(a.z, b.z);
+	  },
+
 	  /**
 	   * Returns the current time in milliseconds (ms)
 	   */
@@ -167,6 +201,36 @@
 	    return Date.now();
 	  }
 	});
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports) {
+
+	"use strict"
+
+	var abs = Math.abs
+	  , min = Math.min
+
+	function almostEqual(a, b, absoluteError, relativeError) {
+	  var d = abs(a - b)
+	  
+	  if (absoluteError == null) absoluteError = almostEqual.DBL_EPSILON;
+	  if (relativeError == null) relativeError = absoluteError;
+	  
+	  if(d <= absoluteError) {
+	    return true
+	  }
+	  if(d <= relativeError * min(abs(a), abs(b))) {
+	    return true
+	  }
+	  return a === b
+	}
+
+	almostEqual.FLT_EPSILON = 1.19209290e-7
+	almostEqual.DBL_EPSILON = 2.2204460492503131e-16
+
+	module.exports = almostEqual
 
 
 /***/ })
