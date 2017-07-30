@@ -1,6 +1,6 @@
 {
   "name": "aframe-lerp-component",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "A linear interpolation component for A-Frame.",
   "main": "index.js",
   "cdn": "dist/aframe-lerp-component.min.js",
@@ -36,7 +36,7 @@
     "url": "https://github.com/haydenjameslee/aframe-lerp-component/issues"
   },
   "homepage": "https://github.com/haydenjameslee/aframe-lerp-component#readme",
-    "dependencies": {
+  "dependencies": {
     "almost-equal": "^1.1.0"
   },
   "devDependencies": {
