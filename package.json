@@ -36,8 +36,10 @@
     "url": "https://github.com/haydenjameslee/aframe-lerp-component/issues"
   },
   "homepage": "https://github.com/haydenjameslee/aframe-lerp-component#readme",
+    "dependencies": {
+    "almost-equal": "^1.1.0"
+  },
   "devDependencies": {
-    "aframe": "^0.4.0",
     "browserify": "^13.0.0",
     "budo": "^8.2.2",
     "chai": "^3.4.1",

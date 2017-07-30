@@ -110,49 +110,6 @@ suite('lerp component', function () {
     });
   });
 
-  suite('changedListener', function () {
-
-    test('toPosition called', sinon.test(function() {
-      var from = { x: 0, y: 0, z: 0 };
-      var to = { x: 1, y: 1, z: 1 };
-      this.spy(component, 'toPosition');
-
-      el.setAttribute('position', to);
-
-      assert.isTrue(component.toPosition.calledWith(from, to));
-    }));
-
-    test('toRotation called', sinon.test(function() {
-      var from = { x: 0, y: 0, z: 0 };
-      var to = { x: 0, y: 90, z: 0 };
-      this.spy(component, 'toRotation');
-
-      el.setAttribute('rotation', to);
-
-      assert.isTrue(component.toRotation.calledWith(from, to));
-    }));
-
-    test('toScale called', sinon.test(function() {
-      var from = { x: 1, y: 1, z: 1 };
-      var to = { x: 2, y: 2, z: 2 };
-      this.spy(component, 'toScale');
-
-      el.setAttribute('scale', to);
-
-      assert.isTrue(component.toScale.calledWith(from, to));
-    }));
-
-    test('not included property', sinon.test(function () {
-      component.data.properties = ['position', 'rotation'];
-      var to = { x: 2, y: 2, z: 2 };
-      this.spy(component, 'toScale');
-
-      el.setAttribute('scale', to);
-
-      assert.isFalse(component.toScale.called);
-    }));
-  });
-
   suite('tick', function () {
 
     test('skip if not lerping', sinon.test(function () {

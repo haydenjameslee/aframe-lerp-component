@@ -4,19 +4,23 @@ var lerp = document.querySelector('#lerp');
 var direction = 1; // -1 for left, 1 for right
 var speed = 1;
 var updateRate = 5;
-var timeToChangeDirection = 1500;
+var timeToChangeDirection = 1000;
 
 var moveInDirection = function() {
   var defPosition = def.getAttribute('position');
-  var lerpPosition = lerp.getAttribute('position');
   var x = defPosition.x;
   var newX = x + direction * speed;
 
   defPosition.x = newX;
-  lerpPosition.x = newX;
-
   def.setAttribute('position', defPosition);
-  lerp.setAttribute('position', lerpPosition);
+
+  var lerpPosition = lerp.getAttribute('position');
+  var newLerpPos = {
+    x: newX,
+    y: lerpPosition.y,
+    z: lerpPosition.z
+  };
+  lerp.setAttribute('position', newLerpPos);
 };
 
 var changeDirection = function() {

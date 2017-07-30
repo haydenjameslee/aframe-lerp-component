@@ -9,6 +9,7 @@ Use directly by calling `el.components.lerp.toPosition(from, to)`
 
 ![GIF Example](http://i.giphy.com/26xBP0MH0KHaCrhE4.gif)
 
+Try on Glitch: https://aframe-lerp-component.glitch.me/
 
 ### API
 

@@ -2,13 +2,16 @@
   <head>
     <title>A-Frame Linear Interpolation Component - Basic</title>
     <meta name="description" content="Basic example for Linear Interpolation component."></meta>
+    <!-- <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script> -->
+    <!-- <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script> -->
+    <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
     <script src="../build.js"></script>
   </head>
   <body>
     <a-scene>
       <a-assets></a-assets>
       <a-box id="default" position="-3.2 3 -4" color="black"></a-box>
-      <a-box id="lerp" lerp="duration:200" position="-3.2 1 -4" color="black"></a-box>
+      <a-box id="lerp" lerp position="-3.2 1 -4" color="black"></a-box>
       <a-light type="point" intensity="5" position="0 2 0" color="white"></a-light>
     </a-scene>
 
